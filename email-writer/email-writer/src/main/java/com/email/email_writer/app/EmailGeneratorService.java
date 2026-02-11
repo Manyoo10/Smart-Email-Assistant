@@ -1,6 +1,7 @@
 package com.email.email_writer.app;
 
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -41,6 +42,7 @@ public class EmailGeneratorService {
          String response = webClient.post()
                  .uri(geminiApiURL + geminiApiKey)
                  .header("Content-Type","application/json")
+                 .bodyValue(requestBody)
                  .retrieve()
                  .bodyToMono(String.class)
                  .block();
@@ -67,7 +69,7 @@ public class EmailGeneratorService {
         }
     }
 
-    private String buildPrompt(EmailRequest emailRequest) {
+    private @NonNull String buildPrompt(EmailRequest emailRequest) {
 
         StringBuilder prompt = new StringBuilder();
         prompt.append("Generate a professional email reply for the following content. Please do not generate a subject line ");
